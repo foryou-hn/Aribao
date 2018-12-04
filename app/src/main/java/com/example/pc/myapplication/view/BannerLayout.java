@@ -29,7 +29,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.bean.NewsBean;
+import com.example.pc.myapplication.bean.NewsListBean;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -199,7 +199,7 @@ public class BannerLayout extends RelativeLayout {
 
 
     //添加网络图片路径
-    public void setViewUrls(List<NewsBean.TopStoriesBean> items) {
+    public void setViewUrls(List<NewsListBean.TopStoriesBean> items) {
         List<View> views = new ArrayList<>();
         itemCount = items.size();
         //主要是解决当item为小于3个的时候滑动有问题，这里将其拼凑成3个以上
@@ -223,7 +223,7 @@ public class BannerLayout extends RelativeLayout {
     }
 
     @NonNull
-    private View getImageView(NewsBean.TopStoriesBean item, final int position) {
+    private View getImageView(NewsListBean.TopStoriesBean item, final int position) {
         RelativeLayout relativeLayout = new RelativeLayout(getContext());
         FrameLayout frameLayout = new FrameLayout(getContext());
         frameLayout.setBackgroundColor(Color.parseColor("#88000000"));

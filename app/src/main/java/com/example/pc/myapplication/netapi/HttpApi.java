@@ -43,7 +43,11 @@ public interface HttpApi {
     Call<ResponseBody> downloadFile(@Url String fileUrl);
 
     @GET("latest")
-    Observable<ResponseBody> latest ();
+    Observable<ResponseBody> latest();
+    @GET
+    Observable<ResponseBody> before(@Url String url);
+    @GET
+    Observable<ResponseBody> getNews(@Url String url);
 
 //    @FormUrlEncoded
 //    @POST("top250")
