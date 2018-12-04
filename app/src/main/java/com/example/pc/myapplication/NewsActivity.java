@@ -63,7 +63,6 @@ public class NewsActivity extends AppCompatActivity {
         nScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                Log.e("test", "oldScrollY - scrollY :" + (oldScrollY - scrollY));
                 if (oldScrollY - scrollY > 3) {
                     flTitleBar.setAlpha(1f);
                     ivBack.setEnabled(true);
@@ -79,7 +78,6 @@ public class NewsActivity extends AppCompatActivity {
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int maxScrollRange = appBarLayout.getTotalScrollRange() - ScreenUtils.dp2px(NewsActivity.this, 56);
                 float alphaValue = (float) ((maxScrollRange + verticalOffset) < 0 ? 0 : maxScrollRange + verticalOffset) / (float) maxScrollRange;
-//                Log.e("test", "alphaValue :" + alphaValue);
                 flTitleBar.setAlpha(alphaValue);
                 if (alphaValue == 0) {
                     ivBack.setEnabled(false);

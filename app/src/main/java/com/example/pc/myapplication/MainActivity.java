@@ -17,11 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pc.myapplication.app.HomeMultipleAdapter;
 import com.example.pc.myapplication.bean.NewsListBean;
 import com.example.pc.myapplication.netapi.URLConstant;
@@ -33,7 +31,6 @@ import com.example.pc.myapplication.utils.DateUtils;
 import com.example.pc.myapplication.view.BannerLayout;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,12 +51,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     DrawerLayout drawerLayout;
     @BindView(R.id.swipeLayout)
     SwipeRefreshLayout swipeLayout;
-    private BaseQuickAdapter<NewsListBean.StoriesBean, BaseViewHolder> adapter;
     private HomeMultipleAdapter homeMultipleAdapter;
     private Integer curDateInt;
     private String curDateStr;
-    private int mVisiblePos;
-    private List<String> oldTitleList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.e("test", "dy: " + dy);
-
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 if (layoutManager instanceof LinearLayoutManager) {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
