@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -116,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("test", "result: " + result);
                         Gson gson = new Gson();
                         NewsListBean newsListBean = gson.fromJson(result, NewsListBean.class);
                         List<NewsListBean.StoriesBean> stories = newsListBean.getStories();
@@ -134,13 +132,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                     @Override
                     public void onFault(String errorMsg) {
-                        Log.e("test", "errorMsg: " + errorMsg);
                         swipeLayout.setRefreshing(false);
                     }
-                }));
+                }, MainActivity.this, true));
     }
 
-    private void showBanner(List<NewsListBean.TopStoriesBean> topStories) {
+    private void showBanner(final List<NewsListBean.TopStoriesBean> topStories) {
         View bannerView = LayoutInflater.from(MainActivity.this).inflate(R.layout.banner_layout, null);
         BannerLayout banner = bannerView.findViewById(R.id.banner);
         banner.setImageLoader(new BannerLayout.ImageLoader() {
@@ -150,6 +147,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             }
         });
         banner.setViewUrls(topStories);
+        banner.setOnBannerItemClickListener(new BannerLayout.OnBannerItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                intent.putExtra("id", topStories.get(position).getId());
+                startActivity(intent);
+            }
+        });
         homeMultipleAdapter.removeAllHeaderView();
         homeMultipleAdapter.addHeaderView(bannerView);
     }
@@ -159,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("test", "result: " + result);
                         Gson gson = new Gson();
                         NewsListBean newsListBean = gson.fromJson(result, NewsListBean.class);
                         List<NewsListBean.StoriesBean> stories = newsListBean.getStories();
@@ -178,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                     @Override
                     public void onFault(String errorMsg) {
-                        Log.e("test", "errorMsg: " + errorMsg);
                         if (!BeanUtils.isEmpty(homeMultipleAdapter)) {
                             homeMultipleAdapter.loadMoreFail();
                         }

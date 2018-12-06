@@ -26,6 +26,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -93,14 +95,22 @@ public class NewsActivity extends AppCompatActivity {
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("test", "result: " + result);
                         Gson gson = new Gson();
                         NewsBean newsBean = gson.fromJson(result, NewsBean.class);
                         Glide.with(NewsActivity.this).load(newsBean.getImage()).into(topImage);
                         topTitle.setText(newsBean.getTitle());
+                        List<String> cssList = newsBean.getCss();
+                        String linkCss = null;
+                        if (!BeanUtils.isEmpty(cssList) && cssList.size() >= 1) {
+                            String cssUrl = cssList.get(0);
+                            linkCss = "<head><link rel=\"stylesheet\" media=\"all\" href=\"" + cssUrl + "\"></head>";
+                        }
                         String body = newsBean.getBody();
                         if (!BeanUtils.isEmptyStr(body)) {
-                            webView.loadDataWithBaseURL(null, getNewData(body), "text/html", "utf-8", null);
+                            String bodyStr = "<body>" + body + "</body>";
+                            String htmlStr = "<html>" + linkCss + bodyStr + "</html>";
+//                            webView.loadDataWithBaseURL(null, getNewData(body), "text/html", "utf-8", null);
+                            webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
                             WebSettings settings = webView.getSettings();
                             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 //                            settings.setUseWideViewPort(true);
@@ -108,10 +118,10 @@ public class NewsActivity extends AppCompatActivity {
                             // 设置支持Javascript
                             settings.setJavaScriptEnabled(true);
                             // 1. 设置缓存路径
-                            String cacheDirPath = getFilesDir().getAbsolutePath()+"cache/";
+                            String cacheDirPath = getFilesDir().getAbsolutePath() + "cache/";
                             settings.setAppCachePath(cacheDirPath);
                             // 2. 设置缓存大小
-                            settings.setAppCacheMaxSize(20*1024*1024);
+                            settings.setAppCacheMaxSize(20 * 1024 * 1024);
                             // 3. 开启Application Cache存储机制
                             settings.setAppCacheEnabled(true);
                         }
@@ -119,7 +129,6 @@ public class NewsActivity extends AppCompatActivity {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        Log.e("test", "errorMsg: " + errorMsg);
                     }
                 }));
     }
