@@ -47,7 +47,6 @@
                     android:textSize="18sp" />
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
-
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -62,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </android.support.v4.widget.NestedScrollView>
+
     <FrameLayout
         android:id="@+id/fl_titleBar"
         android:layout_width="match_parent"

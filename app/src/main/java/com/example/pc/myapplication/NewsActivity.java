@@ -107,7 +107,7 @@ public class NewsActivity extends AppCompatActivity {
                         }
                         String body = newsBean.getBody();
                         if (!BeanUtils.isEmptyStr(body)) {
-                            String bodyStr = "<body>" + body + "</body>";
+                            String bodyStr = "<body>" + body.replace("img-place-holder" , "") + "</body>";
                             String htmlStr = "<html>" + linkCss + bodyStr + "</html>";
 //                            webView.loadDataWithBaseURL(null, getNewData(body), "text/html", "utf-8", null);
                             webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
